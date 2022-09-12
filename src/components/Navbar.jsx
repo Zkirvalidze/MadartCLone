@@ -1,8 +1,7 @@
 import React from 'react';
-import logo from '../assets/madart_logotype.png';
-import loginIcon from '../assets/login_icon.png';
-import checkoutIcon from '../assets/cart_icon.png';
 import { Link } from 'react-router-dom';
+
+import { logo, loginIcon, checkoutIcon } from '../assets';
 const Navbar = () => {
   return (
     <div className=" flex   justify-between items-center  pl-24  ">
@@ -12,7 +11,7 @@ const Navbar = () => {
         </Link>
       </div>
       <div className=" mx-2 h-0.5 bg-madart-orange w-1/2 "></div>
-      <div className="flex items-center font-bold ">
+      <div className="flex items-center font-bold">
         <div
           className="flex justify-between pr-8 shrink-0 "
           style={{ width: '350px' }}
@@ -25,7 +24,7 @@ const Navbar = () => {
           </Link>
         </div>
         <div className="bg-madart-orange py-7 pr-24  shrink-0 ">
-          <Link to="/checkout">
+          <Link to="/checkout" className="hover:text-black">
             <img
               src={checkoutIcon}
               alt="checkoutIcon"
