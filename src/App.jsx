@@ -1,5 +1,7 @@
+import { Hero } from './components/index';
+
 function App() {
-  return <div>this is the home</div>;
+  return <Hero />;
 }
 
 export default App;
