@@ -1,7 +1,7 @@
 import React from 'react';
-
+import { Hero, ProductList } from '../components/index';
 const Home = () => {
-  return <div>Home</div>;
+  return <ProductList />;
 };
 
 export default Home;

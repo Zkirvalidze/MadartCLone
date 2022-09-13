@@ -1,7 +1,8 @@
 import React from 'react';
+import { slider1, slider2 } from '../assets';
 
 const Hero = () => {
-  return <div>Hero</div>;
+  return <></>;
 };
 
 export default Hero;

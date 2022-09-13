@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { logo, loginIcon, checkoutIcon } from '../assets';
 const Navbar = () => {
   return (
-    <div className=" flex   justify-between items-center  pl-24  ">
+    <div className=" flex   justify-between items-center  pl-24 sticky top-0 z-50  bg-yellow-50  Navbar ">
       <div className="flex shrink-0">
         <Link to="/">
           <img src={logo} alt="logo" width="181px" heigth="63px" />
@@ -30,7 +30,7 @@ const Navbar = () => {
               alt="checkoutIcon"
               className="inline  ml-10 px-2 "
             />
-            კალათა
+            <p className="inline  "> კალათა</p>
           </Link>
         </div>
       </div>
