@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { client } from '../lib/client';
 import { Link } from 'react-router-dom';
-import { ProductCard } from './index';
+import { Product } from './index';
+import { useStateContext } from '../context/StateContext';
 const ProductList = () => {
-  const [data, setData] = useState(null);
+  const { data, setData } = useStateContext();
   useEffect(() => {
     client
       .fetch(
@@ -17,10 +18,9 @@ const ProductList = () => {
 
   return (
     <div className=" grid-cols-1 grid md:grid-cols-3  place-content-center  justify-items-center mt-28 gap-4 w-full h-full">
-      {data &&
-        data.map((product, index) => (
-          <ProductCard key={index} product={product} />
-        ))}
+      {data?.map((product, index) => (
+        <Product key={index} product={product} />
+      ))}
     </div>
   );
 };
