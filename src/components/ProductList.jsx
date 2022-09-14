@@ -17,11 +17,14 @@ const ProductList = () => {
   }, []);
 
   return (
-    <div className=" grid-cols-1 grid md:grid-cols-3  place-content-center  justify-items-center mt-28 gap-4 w-full h-full">
-      {data?.map((product, index) => (
-        <Product key={index} product={product} />
-      ))}
-    </div>
+    <>
+      <div className=" grid-cols-1 grid md:grid-cols-4  place-content-center  justify-items-center mt-28 gap-4 w-full h-full">
+        <div className=" ">filter spaceholder </div>
+        {data?.map((product, index) => (
+          <Product key={index} product={product} />
+        ))}
+      </div>
+    </>
   );
 };
 
