@@ -4,7 +4,7 @@ const Context = createContext();
 
 export const StateContext = ({ children }) => {
   const [data, setData] = useState(null);
-
+  const [currProduct, setCurrProduct] = useState(null);
   return (
     <Context.Provider value={{ data, setData }}>{children}</Context.Provider>
   );

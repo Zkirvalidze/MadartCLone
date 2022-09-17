@@ -6,17 +6,8 @@ a:hover {
   color: #ffbb00;
 }
 
-.bg-image {
-  background-image: url('./assets/slider_1.png');
-  overflow: hidden;
-  position: absolute;
-  top: 0%;
-  left: 0%;
-  width: 100%;
-  height: 100%;
-  z-index: 25;
-  background-repeat: no-repeat;
-  background-position: center;
+*:root {
+  font-family: 'Josefin Sans', sans-serif;
 }
 
 /* .bg-image1 {

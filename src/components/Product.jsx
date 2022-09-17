@@ -9,7 +9,7 @@ const Product = ({ product: { name, image, price, description, slug } }) => {
           src={urlFor(image && image[0])
             .width(250)
             .height(250)}
-          className="product-image "
+          alt="product-image"
         />
         <div className="font-bold text-lg text-center ease-in duration-300">
           <p className="whitespace-pre-wrap">{name}</p>
