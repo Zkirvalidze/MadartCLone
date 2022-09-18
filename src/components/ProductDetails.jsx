@@ -23,7 +23,6 @@ const ProductDetails = () => {
         })
         .catch((err) => console.log(err));
   }, []);
-  console.log(result);
 
   return (
     data && (
@@ -37,7 +36,7 @@ const ProductDetails = () => {
               className="w-12 text-center border-solid border-2 border-black"
               defaultValue={1}
             ></input>
-            <p className="text-2xl text-black mt-2  ">-{result?.price}ლ</p>
+            <p className="text-2xl text-black   ">{result?.price}ლ</p>
           </div>
           <button className="  border-solid rounded-lg border-2 cursor-pointer p-2 mt-4 bg-madart-orange border-gray-400 ">
             კალათაში დამატება

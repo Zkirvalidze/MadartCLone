@@ -15,7 +15,7 @@ const ProductList = () => {
       .then((data) => setData(data))
       .catch((err) => console.log(err));
   }, []);
-  console.log('refresh', 'data->', data);
+
   return (
     <>
       <div className=" grid-cols-1 grid md:grid-cols-4  place-content-center  justify-items-center mt-28 gap-4 w-full h-full">
