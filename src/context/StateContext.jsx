@@ -4,9 +4,12 @@ const Context = createContext();
 
 export const StateContext = ({ children }) => {
   const [data, setData] = useState(null);
-  const [currProduct, setCurrProduct] = useState(null);
+  const [user, setUser] = useState(null);
+
   return (
-    <Context.Provider value={{ data, setData }}>{children}</Context.Provider>
+    <Context.Provider value={{ data, setData, user, setUser }}>
+      {children}
+    </Context.Provider>
   );
 };
 

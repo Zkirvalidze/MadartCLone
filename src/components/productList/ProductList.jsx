@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
-import { client } from '../lib/client';
-import { Product } from './index';
-import { useStateContext } from '../context/StateContext';
+import { client } from '../../lib/client';
+import { Product } from '../index';
+import { useStateContext } from '../../context/StateContext';
 const ProductList = () => {
   const { data, setData } = useStateContext();
 

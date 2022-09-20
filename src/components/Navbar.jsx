@@ -13,7 +13,7 @@ const Navbar = () => {
       <div className=" mx-2 h-0.5 bg-madart-orange w-1/2 "></div>
       <div className="flex items-center font-bold">
         <div
-          className="flex justify-between pr-8 shrink-0  "
+          className="flex justify-between pr-8 shrink-0 "
           style={{ width: '350px' }}
         >
           <Link to="/">მთავარი</Link>

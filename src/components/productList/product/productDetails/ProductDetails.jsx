@@ -1,8 +1,8 @@
 import React from 'react';
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { useStateContext } from '../context/StateContext';
-import { urlFor, client } from '../lib/client';
+import { useStateContext } from '../../../../context/StateContext';
+import { urlFor, client } from '../../../../lib/client';
 
 const ProductDetails = () => {
   const { data, setData } = useStateContext();

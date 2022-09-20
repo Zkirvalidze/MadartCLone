@@ -9,6 +9,12 @@ a:hover {
 *:root {
   font-family: 'Josefin Sans', sans-serif;
 }
+.registration-input:focus ~ .registration-label {
+  top: -11px;
+  font-size: 13px;
+  color: #ffbb00;
+}
+
 /* YOUR CLIENT ID */
 /* 751248971010-kqeh18484jbjcc798ighjrfp50itrf7q.apps.googleusercontent.com */
 /* YOUR CLIENT SECRET */
