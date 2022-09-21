@@ -1,8 +1,43 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import Axios from 'axios';
 
 import { facebookIcon, googleIcon, registrationIcon } from '../assets';
 const Login = () => {
+  const [data, setData] = useState(null);
+  const register = () => {
+    Axios({
+      method: 'POST',
+      data: {
+        username: 'gio',
+        password: 'registerPassword',
+      },
+      withCredentials: true,
+      url: 'http://localhost:5000/auth/register',
+    }).then((res) => console.log(res));
+  };
+
+  const login = () => {
+    Axios({
+      method: 'POST',
+      data: {
+        username: 'loginUsername',
+        password: 'loginPassword',
+      },
+      withCredentials: true,
+      url: 'http://localhost:5000/auth/login',
+    }).then((res) => console.log(res));
+  };
+  // const getUser = () => {
+  //   Axios({
+  //     method: 'GET',
+  //     withCredentials: true,
+  //     url: 'http://localhost:5000/user',
+  //   }).then((res) => {
+  //     setData(res.data);
+  //     console.log(res.data);
+  //   });
+  // };
   const google = () => {
     window.open('http://localhost:5000/auth/google', '_self');
   };
@@ -56,7 +91,10 @@ const Login = () => {
               პაროლი
             </label>
           </div>
-          <button className="w-full h-16 bg-madart-orange rounded-md my-6 px-6">
+          <button
+            className="w-full h-16 bg-madart-orange rounded-md my-6 px-6"
+            onClick={register}
+          >
             ავტორიზაცია
           </button>
           <div className="text-center">
