@@ -4,13 +4,12 @@ import Axios from 'axios';
 
 import { facebookIcon, googleIcon, registrationIcon } from '../assets';
 const Login = () => {
-  const [data, setData] = useState(null);
   const register = () => {
     Axios({
       method: 'POST',
       data: {
-        username: 'gio',
-        password: 'registerPassword',
+        username: 'Username',
+        password: 'Password',
       },
       withCredentials: true,
       url: 'http://localhost:5000/auth/register',
@@ -21,23 +20,14 @@ const Login = () => {
     Axios({
       method: 'POST',
       data: {
-        username: 'loginUsername',
-        password: 'loginPassword',
+        username: 'Username',
+        password: 'Password',
       },
       withCredentials: true,
       url: 'http://localhost:5000/auth/login',
     }).then((res) => console.log(res));
   };
-  // const getUser = () => {
-  //   Axios({
-  //     method: 'GET',
-  //     withCredentials: true,
-  //     url: 'http://localhost:5000/user',
-  //   }).then((res) => {
-  //     setData(res.data);
-  //     console.log(res.data);
-  //   });
-  // };
+
   const google = () => {
     window.open('http://localhost:5000/auth/google', '_self');
   };
@@ -94,6 +84,12 @@ const Login = () => {
           <button
             className="w-full h-16 bg-madart-orange rounded-md my-6 px-6"
             onClick={register}
+          >
+            register
+          </button>
+          <button
+            className="w-full h-16 bg-madart-orange rounded-md my-6 px-6"
+            onClick={login}
           >
             ავტორიზაცია
           </button>

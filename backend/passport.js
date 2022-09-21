@@ -2,6 +2,8 @@ const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const FacebookStrategy = require('passport-facebook').Strategy;
 const LocalStrategy = require('passport-local').Strategy;
 const passport = require('passport');
+const bcrypt = require('bcryptjs');
+const User = require('./user');
 
 const GOOGLE_CLIENT_ID =
   '751248971010-kqeh18484jbjcc798ighjrfp50itrf7q.apps.googleusercontent.com';
@@ -59,3 +61,13 @@ passport.serializeUser((user, done) => {
 passport.deserializeUser((user, done) => {
   done(null, user);
 });
+
+// passport.deserializeUser((id, cb) => {
+//   console.log('deserializing');
+//   User.findOne({ _id: id }, (err, user) => {
+//     const userInformation = {
+//       username: user.username,
+//     };
+//     cb(err, userInformation);
+//   });
+// });

@@ -5,6 +5,19 @@ const User = require('../user');
 
 const CLIENT_URL = 'http://localhost:5173/';
 
+router.post('/login', (req, res, next) => {
+  passport.authenticate('local', (err, user, info) => {
+    if (err) throw err;
+    if (!user) res.send('No User Exists');
+    else {
+      req.logIn(user, (err) => {
+        if (err) throw err;
+        res.send('Successfully Authenticated');
+      });
+    }
+  })(req, res, next);
+});
+
 router.post('/register', (req, res) => {
   User.findOne({ username: req.body.username }, async (err, doc) => {
     if (err) throw err;
@@ -21,25 +34,12 @@ router.post('/register', (req, res) => {
     }
   });
 });
-router.post('/login', (req, res, next) => {
-  passport.authenticate('local', (err, user, info) => {
-    if (err) throw err;
-    if (!user) res.send('No User Exists');
-    else {
-      req.logIn(user, (err) => {
-        if (err) throw err;
-        res.send('Successfully Authenticated');
-        console.log(req.user);
-      });
-    }
-  })(req, res, next);
-});
-// router.get('/user', (req, res) => {
-//   res.send(req.user); // The req.user stores the entire user that has been authenticated inside of it.
-// });
+
+// The req.user stores the entire user that has been authenticated inside of it.
 
 router.get('/login/success', (req, res) => {
   if (req.user) {
+    res.send(req.user);
     res.status(200).json({
       success: true,
       message: 'successfull',

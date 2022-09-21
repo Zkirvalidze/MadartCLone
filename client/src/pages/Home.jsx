@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Hero, ProductList } from '../components/index';
 import { useStateContext } from '../context/StateContext';
 import { useEffect } from 'react';
+import Axios from 'axios';
 const Home = () => {
   const { user, setUser } = useStateContext();
 
@@ -22,7 +23,7 @@ const Home = () => {
           throw new Error('authentication has been failed!');
         })
         .then((resObject) => {
-          setUser(resObject.user);
+          setUser(resObject);
         })
         .catch((err) => {
           console.log(err);

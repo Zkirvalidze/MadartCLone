@@ -50,6 +50,7 @@ app.use(cookieParser('secretcode'));
 app.use(passport.initialize());
 app.use(passport.session());
 
+app.use('/auth', authRoute);
 app.listen('5000', () => {
   console.log('Server is running!');
 });
