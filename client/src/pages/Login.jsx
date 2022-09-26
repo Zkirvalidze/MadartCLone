@@ -1,32 +1,34 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { useStateContext } from '../context/StateContext';
+import { facebookIcon, googleIcon, registrationIcon } from '../assets';
+import {registerUser,loginUser} from '../lib/client'
+
 import Axios from 'axios';
 
-import { facebookIcon, googleIcon, registrationIcon } from '../assets';
 const Login = () => {
-  const register = () => {
-    Axios({
-      method: 'POST',
-      data: {
-        username: 'Username',
-        password: 'Password',
-      },
-      withCredentials: true,
-      url: 'http://localhost:5000/auth/register',
-    }).then((res) => console.log(res));
-  };
 
-  const login = () => {
-    Axios({
-      method: 'POST',
-      data: {
-        username: 'Username',
-        password: 'Password',
-      },
-      withCredentials: true,
-      url: 'http://localhost:5000/auth/login',
-    }).then((res) => console.log(res));
-  };
+let navigate = useNavigate();
+   const { userInput,setUserInput,passwordInput,setPasswordInput } = useStateContext();
+
+const register =  (user, psw)=> {
+  registerUser(user, psw).then((res) => 
+    console.log(res)
+  )
+}
+
+
+const login =  (user,psw)=>{
+
+   loginUser(user,psw).then((res) => {
+        if(res.data.message==='Successfully Authenticated'&& res.status===200){
+          navigate('/')
+        }
+      console.log(res)
+    }
+    )}
+
+
 
   const google = () => {
     window.open('http://localhost:5000/auth/google', '_self');
@@ -35,9 +37,7 @@ const Login = () => {
   const facebook = () => {
     window.open('http://localhost:5000/auth/facebook', '_self');
   };
-  const logOut = () => {
-    window.open('http://localhost:5000/auth/logout', '_self');
-  };
+  
 
   return (
     <div className="flex justify-center items-start bg-gray-100 h-screen">
@@ -56,11 +56,15 @@ const Login = () => {
               autoComplete="off"
               required
               name="phone"
+              value={userInput}
+              onChange={(event) => {
+                setUserInput(event.target.value);
+              }}
               className=" border-solid border-2 rounded-md border-[#dae3f0] h-16 w-full outline-none  focus-within:border-madart-orange registration-input  "
             />
             <label
               htmlFor="phone"
-              className="text-[#8b9aa7] absolute  top-[20px] left-[42px] registration-label bg-white px-2 transition-all   pointer-events-none    "
+              className="text-[#8b9aa7] absolute  top-[20px] left-[42px] registration-label bg-white px-2   transition-all   pointer-events-none    "
             >
               ტელეფონის ნომერი
             </label>
@@ -71,6 +75,10 @@ const Login = () => {
               type="text"
               autoComplete="off"
               required
+              value={passwordInput}
+              onChange={(event) => {
+                setPasswordInput(event.target.value);
+              }}
               name="password"
               className=" border-solid border-2 rounded-md border-[#dae3f0] h-16 w-full  outline-none focus:border-madart-orange   registration-input  "
             />
@@ -81,15 +89,15 @@ const Login = () => {
               პაროლი
             </label>
           </div>
-          <button
+          {/* <button
             className="w-full h-16 bg-madart-orange rounded-md my-6 px-6"
-            onClick={register}
+            onClick={() => register(userInput, passwordInput)}
           >
             register
-          </button>
+          </button> */}
           <button
             className="w-full h-16 bg-madart-orange rounded-md my-6 px-6"
-            onClick={login}
+            onClick={()=>login(userInput,passwordInput)}
           >
             ავტორიზაცია
           </button>

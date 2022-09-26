@@ -9,10 +9,15 @@ a:hover {
 *:root {
   font-family: 'Josefin Sans', sans-serif;
 }
-.registration-input:focus ~ .registration-label {
+
+.registration-input:focus ~ .registration-label,.registration-input:valid ~ .registration-label {
   top: -11px;
   font-size: 13px;
   color: #ffbb00;
+}
+  
+.navbar-login:hover + .navbar-sidebar{
+display: block;
 }
 
 /* YOUR CLIENT ID */
