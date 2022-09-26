@@ -10,7 +10,7 @@ const Home = () => {
 
   useEffect(() => {
     getUser().then((res) => {
-       if (response.status === 200) setUser(res.data);
+       if (res.status === 200) setUser(res.data);
       })
       .catch((err) => {
         console.log(err);
