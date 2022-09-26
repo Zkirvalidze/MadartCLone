@@ -1,13 +1,10 @@
-import React,{useState} from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useStateContext } from '../context/StateContext';
 import { logo, loginIcon, checkoutIcon } from '../assets';
+import { authStrategy } from '../lib/client';
 const Navbar = () => {
   const { data, user } = useStateContext();
-
-const logOut = () => {
-    window.open('http://localhost:5000/auth/logout', '_self');
-  };
 
   return (
     <div className=" flex    justify-between items-center  pl-24 sticky top-0 z-50  bg-yellow-50  Navbar ">
@@ -36,32 +33,34 @@ const logOut = () => {
                 გამარჯობა,
                 <br />{' '}
                 <span className="pl-6 pb-10">
-                  { user.username.split(' ')[0]}
+                  {user.username.split(' ')[0]}
                 </span>
               </span>
             )}
           </Link>
 
-         {user._id && <div
-            className={`  hidden hover:block p-6  absolute  top-[14px] right-[-16px] mx-4 my-2 min-w-[140px] rounded-md  bg-yellow-50 navbar-sidebar`}
-          >
-            <ul className="list-none flex  flex-col  justify-end items-center flex-1 ">
-              <li className="inline-block">
-                <Link to="#" className=" ">
-                  <p className="pb-1  border-b border-black ">Your orders</p>
-                </Link>
-              </li>
-              <li>
-                <button onClick={logOut} className="m-1">
-                  Log out
-                </button>
-              </li>
-            </ul>
-          </div>}
+          {user._id && (
+            <div
+              className={`  hidden hover:block p-6  absolute  top-[14px] right-[-16px] mx-4 my-2 min-w-[140px] rounded-md  bg-yellow-50 navbar-sidebar`}
+            >
+              <ul className="list-none flex  flex-col  justify-end items-center flex-1 ">
+                <li className="inline-block">
+                  <Link to="#" className=" ">
+                    <p className="pb-1  border-b border-black ">Your orders</p>
+                  </Link>
+                </li>
+                <li>
+                  <button onClick={()=>{authStrategy('logOut')}} className="m-1">
+                    Log out
+                  </button>
+                </li>
+              </ul>
+            </div>
+          )}
         </div>
 
         <div className="bg-madart-orange py-7 pr-24  shrink-0 ">
-         <Link to="/checkout" className="hover:text-black">
+          <Link to="/checkout" className="hover:text-black">
             <img
               src={checkoutIcon}
               alt="checkoutIcon"

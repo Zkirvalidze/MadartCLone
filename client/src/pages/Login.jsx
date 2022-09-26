@@ -2,42 +2,25 @@ import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useStateContext } from '../context/StateContext';
 import { facebookIcon, googleIcon, registrationIcon } from '../assets';
-import {registerUser,loginUser} from '../lib/client'
-
-import Axios from 'axios';
+import { postUser, authStrategy } from '../lib/client';
 
 const Login = () => {
+  let navigate = useNavigate();
 
-let navigate = useNavigate();
-   const { userInput,setUserInput,passwordInput,setPasswordInput } = useStateContext();
+  const { userInput, setUserInput, passwordInput, setPasswordInput } =
+    useStateContext();
 
-const register =  (user, psw)=> {
-  registerUser(user, psw).then((res) => 
-    console.log(res)
-  )
-}
-
-
-const login =  (user,psw)=>{
-
-   loginUser(user,psw).then((res) => {
-        if(res.data.message==='Successfully Authenticated'&& res.status===200){
-          navigate('/')
-        }
-      console.log(res)
-    }
-    )}
-
-
-
-  const google = () => {
-    window.open('http://localhost:5000/auth/google', '_self');
+  const postAuthAction = (user, psw, authAction) => {
+    postUser(user, psw, authAction).then((res) => {
+      if (
+        res.data.message === 'Successfully Authenticated' &&
+        res.status === 200
+      ) {
+        navigate('/');
+      }
+      console.log(res);
+    });
   };
-
-  const facebook = () => {
-    window.open('http://localhost:5000/auth/facebook', '_self');
-  };
-  
 
   return (
     <div className="flex justify-center items-start bg-gray-100 h-screen">
@@ -91,13 +74,13 @@ const login =  (user,psw)=>{
           </div>
           {/* <button
             className="w-full h-16 bg-madart-orange rounded-md my-6 px-6"
-            onClick={() => register(userInput, passwordInput)}
+            onClick={() => postAuthAction(userInput, passwordInput,'register')}
           >
             register
           </button> */}
           <button
             className="w-full h-16 bg-madart-orange rounded-md my-6 px-6"
-            onClick={()=>login(userInput,passwordInput)}
+            onClick={() => postAuthAction(userInput, passwordInput, 'login')}
           >
             ავტორიზაცია
           </button>
@@ -115,14 +98,14 @@ const login =  (user,psw)=>{
             <div className="flex gap-2">
               <button
                 className="flex justify-start items-center  border-solid border-2 p-2 my-4 rounded-md border-[#dae3f0] w-1/2"
-                onClick={google}
+                onClick={() => authStrategy('google')}
               >
                 <img src={googleIcon} alt="google-icon" className="w-8 h-8" />
                 <p className="text-xl pl-6 :">Google</p>
               </button>
               <button
                 className="flex justify-start items-center  border-solid border-1 p-2 my-4 rounded-md border-[#dae3f0] w-1/2 bg-[#385499]"
-                onClick={facebook}
+                onClick={() => authStrategy('facebook')}
               >
                 <img
                   src={facebookIcon}
