@@ -8,6 +8,18 @@ export const client = sanityClient({
   useCdn: true,
 });
 
+
+export const getUser = () => {
+  return Axios.get(`${import.meta.env.VITE_API_URL + `auth/login/success`}`, {
+    withCredentials: true,
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      'Access-Control-Allow-Credentials': true,
+    },
+  });
+};
+
 export const postUser = (user, password, authAction) => {
   return Axios({
     method: 'POST',
