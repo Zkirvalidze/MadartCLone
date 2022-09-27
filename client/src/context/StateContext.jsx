@@ -4,13 +4,19 @@ const Context = createContext();
 
 export const StateContext = ({ children }) => {
   const [data, setData] = useState(null);
-  const [user, setUser] = useState([]);
-   const [userInput, setUserInput] = useState('');
-   const [passwordInput, setPasswordInput] = useState('');
-
+  const [user, setUser] = useState(null);
+  const [authType, setAuthType] = useState('');
 
   return (
-    <Context.Provider value={{ data, setData, user, setUser,userInput,setUserInput,passwordInput,setPasswordInput }}>
+    <Context.Provider
+      value={{
+        data,
+        setData,
+        user,
+        setUser,
+        authType,setAuthType
+      }}
+    >
       {children}
     </Context.Provider>
   );

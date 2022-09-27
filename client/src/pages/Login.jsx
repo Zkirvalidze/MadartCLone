@@ -1,14 +1,34 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useStateContext } from '../context/StateContext';
 import { facebookIcon, googleIcon, registrationIcon } from '../assets';
 import { postUser, authStrategy } from '../lib/client';
+import { Formik, Form } from 'formik';
+import { FormControl } from '../components';
+import { LocalAuthButton } from '../components/Buttons';
+import { useStateContext } from '../context/StateContext';
+import * as Yup from 'yup';
 
 const Login = () => {
-  let navigate = useNavigate();
+  const INPUTLABEL1 = ' ტელეფონის ნომერი';
+  const INPUTLABEL2 = 'პაროლი ';
+  const LOGIN_BTN_VALUE = 'ავტორიზაცია';
+  const REGISTER_BTN_VALUE = 'რეგისტრაცია';
+  const { authType } = useStateContext();
 
-  const { userInput, setUserInput, passwordInput, setPasswordInput } =
-    useStateContext();
+  const phoneRegex = !/^(\+?995)?(79\d{7}|5\d{8})$/;
+
+  const validationSchema = Yup.object({
+    phone: Yup.string().email('invalid email format').required('required!'),
+    password: Yup.string().required('required!'),
+  });
+
+  const initialValues = { phone: '', password: '' };
+
+  const onSubmit = ({ phone, password }) => {
+    postAuthAction(phone, password, authType);
+  };
+
+  let navigate = useNavigate();
 
   const postAuthAction = (user, psw, authAction) => {
     postUser(user, psw, authAction).then((res) => {
@@ -33,57 +53,34 @@ const Login = () => {
           </div>
         </div>
         <div className="  px-8 registration-body ">
-          <div className="relative ">
-            <input
-              type="text"
-              autoComplete="off"
-              required
-              name="phone"
-              value={userInput}
-              onChange={(event) => {
-                setUserInput(event.target.value);
-              }}
-              className=" border-solid border-2 rounded-md border-[#dae3f0] h-16 w-full outline-none  focus-within:border-madart-orange registration-input  "
-            />
-            <label
-              htmlFor="phone"
-              className="text-[#8b9aa7] absolute  top-[20px] left-[42px] registration-label bg-white px-2   transition-all   pointer-events-none    "
+          <Formik
+            initialValues={initialValues}
+            validationSchema={validationSchema}
+            onSubmit={onSubmit}
             >
-              ტელეფონის ნომერი
-            </label>
-          </div>
-          <div className="relative mt-6 ">
-            <input
-              style={{ textAlign: 'center' }}
-              type="text"
-              autoComplete="off"
-              required
-              value={passwordInput}
-              onChange={(event) => {
-                setPasswordInput(event.target.value);
-              }}
-              name="password"
-              className=" border-solid border-2 rounded-md border-[#dae3f0] h-16 w-full  outline-none focus:border-madart-orange   registration-input  "
-            />
-            <label
-              className="text-[#8b9aa7] absolute  top-[20px] left-[42px]  registration-label bg-white px-2 transition-all pointer-events-none
-           "
-            >
-              პაროლი
-            </label>
-          </div>
-          {/* <button
-            className="w-full h-16 bg-madart-orange rounded-md my-6 px-6"
-            onClick={() => postAuthAction(userInput, passwordInput,'register')}
-          >
-            register
-          </button> */}
-          <button
-            className="w-full h-16 bg-madart-orange rounded-md my-6 px-6"
-            onClick={() => postAuthAction(userInput, passwordInput, 'login')}
-          >
-            ავტორიზაცია
-          </button>
+            {(props) => (
+              <Form>
+                <FormControl name={'phone'} label={INPUTLABEL1} value={props.values.phone} />
+                <FormControl
+                  name={'password'}
+                  label={INPUTLABEL2}
+                  value={props.values.password}
+                />
+
+                {/* <LocalAuthButton
+                authAction={'register'}
+                buttonName={REGISTER_BTN_VALUE}
+              /> */}
+
+                <LocalAuthButton
+                  authAction={'login'}
+                  buttonName={LOGIN_BTN_VALUE}
+                  />
+            
+              </Form>
+            )}
+          </Formik>
+
           <div className="text-center">
             <p className=" my-2 text-[#8b9aa7]">
               თუ არ ხართ დარეგისტრირებული გაიარეთ

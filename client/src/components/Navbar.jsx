@@ -22,11 +22,11 @@ const Navbar = () => {
           <Link to="/">მთავარი</Link>
           <Link to="/aboutus">ჩვენ შესახებ</Link>
           <Link
-            to={user.length === 0 ? '/login' : '#'}
+            to={!user ? '/login' : '#'}
             className=" navbar-login"
           >
             <img src={loginIcon} alt="login icon" className={`inline mr-2 `} />
-            {user.length === 0 ? (
+            {!user ? (
               <span>შესვლა</span>
             ) : (
               <span>
@@ -39,7 +39,7 @@ const Navbar = () => {
             )}
           </Link>
 
-          {user._id && (
+          {user && (
             <div
               className={`  hidden hover:block p-6  absolute  top-[14px] right-[-16px] mx-4 my-2 min-w-[140px] rounded-md  bg-yellow-50 navbar-sidebar`}
             >

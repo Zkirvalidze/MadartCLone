@@ -5,5 +5,6 @@ import Navbar from './Navbar';
 import ProductDetails from './productList/product/productDetails/ProductDetails';
 import ProductList from './productList/ProductList';
 import Product from './productList/product/Product';
+import FormControl from './FormControl';
 
-export { Navbar, Footer, Hero, Layout, ProductDetails, ProductList, Product };
+export { Navbar, Footer, Hero, Layout, ProductDetails, ProductList, Product,FormControl };

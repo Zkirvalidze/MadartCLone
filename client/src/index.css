@@ -10,7 +10,7 @@ a:hover {
   font-family: 'Josefin Sans', sans-serif;
 }
 
-.registration-input:focus ~ .registration-label,.registration-input:valid ~ .registration-label {
+.registration-input:focus ~ .registration-label{
   top: -11px;
   font-size: 13px;
   color: #ffbb00;
