@@ -1,20 +1,22 @@
 import React from 'react';
 import { Field, ErrorMessage } from 'formik';
+import TextError from './TextError';
 
-const FormControl = ({ name, label, value}) => {
- 
+const FormControl = ({ name, label, value }) => {
   return (
     <div className="relative mt-8 form-control">
       <Field
         type="text"
-      
         name={name}
-        
         className=" border-solid border-2 rounded-md border-[#dae3f0] h-16 w-full outline-none  focus-within:border-madart-orange registration-input "
       />
-      <ErrorMessage name={name} />
+      <ErrorMessage name={name} component={TextError} />
       <label
-        style={value.length>0 ?{ top: '-11px', fontSize: '13px', color: '#ffbb00'}:{}}
+        style={
+          value.length > 0
+            ? { top: '-11px', fontSize: '13px', color: '#ffbb00' }
+            : {}
+        }
         htmlFor={name}
         className="text-[#8b9aa7] absolute  top-[20px] left-[42px] registration-label bg-white px-2   transition-all   pointer-events-none "
       >
