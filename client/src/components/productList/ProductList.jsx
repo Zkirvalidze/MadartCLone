@@ -9,7 +9,7 @@ const ProductList = () => {
     client
       .fetch(
         `*[_type=="product"]{
-          name, image[]{asset->{url}},slug,description,price
+          name, image[]{asset->{url}},slug,description,price,_id
         }`
       )
       .then((data) => setData(data))
@@ -18,8 +18,7 @@ const ProductList = () => {
 
   return (
     <>
-      <div className=" grid-cols-1 grid md:grid-cols-4  place-content-center  justify-items-center mt-28 gap-4 w-full h-full">
-        <div className=" ">filter spaceholder </div>
+      <div className=" grid-cols-1 grid md:grid-cols-2 xl:grid-cols-3   place-content-center  justify-items-center    gap-4  w-[70%] h-auto">
         {data?.map((product, index) => (
           <Product key={index} product={product} />
         ))}

@@ -7,5 +7,21 @@ import ProductList from './productList/ProductList';
 import Product from './productList/product/Product';
 import FormControl from './shareable/FormControl';
 import TextError from './shareable/TextError';
+import QuantityIndicator from './shareable/QuantityIndicator';
 
-export { Navbar, Footer, Hero, Layout, ProductDetails, ProductList, Product,FormControl,TextError};
+import Cart from './aside/Cart';
+import Filter from './aside/Filter';
+export {
+  Navbar,
+  Footer,
+  Hero,
+  Layout,
+  ProductDetails,
+  ProductList,
+  Product,
+  FormControl,
+  TextError,
+  Cart,
+  QuantityIndicator,
+  Filter
+};

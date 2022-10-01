@@ -6,6 +6,7 @@ import slider2 from './slider_2.png';
 import registrationIcon from './registration_icon.png';
 import googleIcon from './google-icon.png';
 import facebookIcon from './Facebook-icon.png';
+import cartBg from './cart_bg.png';
 
 export {
   checkoutIcon,
@@ -16,4 +17,5 @@ export {
   registrationIcon,
   googleIcon,
   facebookIcon,
+  cartBg
 };
