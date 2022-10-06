@@ -7,6 +7,10 @@ import registrationIcon from './registration_icon.png';
 import googleIcon from './google-icon.png';
 import facebookIcon from './Facebook-icon.png';
 import cartBg from './cart_bg.png';
+import menuIcon from './menu_icon.png';
+import searchButton from './search_button.png';
+import homeIcon from './home_icon.png';
+import aboutIcon from './about_icon.png';
 
 export {
   checkoutIcon,
@@ -17,5 +21,9 @@ export {
   registrationIcon,
   googleIcon,
   facebookIcon,
-  cartBg
+  cartBg,
+  menuIcon,
+  searchButton,
+  homeIcon,
+  aboutIcon,
 };

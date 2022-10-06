@@ -10,6 +10,7 @@ export const StateContext = ({ children }) => {
   const [cartItems, setCartItems] = useState([]);
   const [totalPrice, setTotalPrice] = useState(0);
   const [totalQuantities, setTotalQuantities] = useState(0);
+  const [menuToggle, setMenuToggle] = useState(false);
 
   const [qty, setQty] = useState(1);
 
@@ -45,7 +46,7 @@ export const StateContext = ({ children }) => {
       setCartItems([...cartItems, { ...product }]);
     }
   };
-  
+
   const onRemove = (product) => {
     foundProduct = cartItems.find(
       (item) => item.slug.current === product.slug.current
@@ -120,7 +121,8 @@ export const StateContext = ({ children }) => {
         toggleCartItemQuanitity,
         incQty,
         decQty,
-        setQty,
+        menuToggle,
+        setMenuToggle,
       }}
     >
       {children}

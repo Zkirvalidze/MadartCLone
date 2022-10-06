@@ -29,8 +29,11 @@ router.post('/login', (req, res, next) => {
   })(req, res, next);
 });
 
+function isLoggedIn(req, res, next) {
+  req.user ? next() : res.sendStatus(401);
+}
+
 router.post('/register', (req, res) => {
-  
   User.findOne({ username: req.body.username }, async (err, doc) => {
     console.log(doc)
     if (err) throw err;
@@ -49,15 +52,15 @@ router.post('/register', (req, res) => {
   });
 });
 
-router.get('/login/success', (req, res) => {
+router.get('/login/success', isLoggedIn,(req, res) => {
   if (req.user) {
     res.send(req.user);
-    res.status(200).json({
-      success: true,
-      message: 'successfull',
-      user: req.user,
-      //   cookies: req.cookies
-    });
+    // res.status(200).json({
+    //   success: true,
+    //   message: 'successfull',
+    //   user: req.user,
+    //   //   cookies: req.cookies
+    // });
   }
 });
 
@@ -71,6 +74,7 @@ router.get('/login/failed', (req, res) => {
 router.get('/logout', (req, res) => {
   req.logout();
   res.redirect(CLIENT_URL);
+
 });
 
 router.get('/google', passport.authenticate('google', { scope: ['profile'] }));

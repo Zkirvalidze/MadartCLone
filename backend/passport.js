@@ -4,10 +4,7 @@ const LocalStrategy = require('passport-local').Strategy;
 const passport = require('passport');
 const bcrypt = require('bcryptjs');
 const User = require('./user');
-
-const GOOGLE_CLIENT_ID =
-  '751248971010-kqeh18484jbjcc798ighjrfp50itrf7q.apps.googleusercontent.com';
-const GOOGLE_CLIENT_SECRET = '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';
+const keys = require('./config/keys');
 
 const FACEBOOK_APP_ID = '2218291421683805';
 const FACEBOOK_APP_SECRET = 'a8d10ea17e3293f0bd56b33884a4c257';
@@ -44,27 +41,22 @@ passport.use(
 passport.use(
   new GoogleStrategy(
     {
-      clientID: GOOGLE_CLIENT_ID,
-      clientSecret: GOOGLE_CLIENT_SECRET,
+      clientID: keys.GOOGLE_CLIENT_ID,
+      clientSecret: keys.GOOGLE_CLIENT_SECRET,
       callbackURL: '/auth/google/callback',
     },
-    function (accessToken, refreshToken, profile, done) {
-      User.findOne({ password: profile.id }).then((currentUser) => {
-        if (currentUser) {
-          console.log('user is', currentUser);
-          done(null, currentUser);
-        } else {
-          new User({
-            username: profile.displayName,
-            password: profile.id,
-          })
-            .save()
-            .then((newUser) => {
-              console.log('new user was created ' + newUser);
-              done(null, newUser);
-            });
-        }
-      });
+    async function (accessToken, refreshToken, profile, done) {
+      const currentUser = await User.findOne({ password: profile.id });
+      if (currentUser) {
+        console.log('user already exists', currentUser);
+        return done(null, currentUser);
+      }
+      const newUser = await new User({
+        username: profile.displayName,
+        password: profile.id,
+      }).save();
+      console.log('new user was created ' + newUser);
+      done(null, newUser);
     }
   )
 );

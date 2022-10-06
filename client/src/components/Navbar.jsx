@@ -1,30 +1,58 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useStateContext } from '../context/StateContext';
-import { logo, loginIcon, checkoutIcon } from '../assets';
+import {
+  logo,
+  loginIcon,
+  checkoutIcon,
+  menuIcon,
+  searchButton,
+} from '../assets';
 import { authStrategy } from '../lib/client';
 const Navbar = () => {
-  const { data, user } = useStateContext();
+  const { data, user, setMenuToggle, menuToggle } = useStateContext();
 
   return (
-    <div className=" flex    justify-between items-center  pl-24 sticky top-0 z-50  bg-yellow-50  Navbar ">
-      <div className="flex shrink-0 navbar-logo...">
-        <Link to="/">
-          <img src={logo} alt="logo" width="181px" heigth="63px" />
+    <div className=" flex justify-between py-2 px-4 sm:p-0 items-center    sticky top-0  bg-white Navbar ">
+      <button>
+        <img
+          src={menuIcon}
+          alt="menu"
+          className="block sm:hidden bg-madart-orange"
+          onClick={() => setMenuToggle((prev) => !prev)}
+        />
+      </button>
+      {console.log(menuToggle)}
+
+      <div className="shrink-0 navbar-logo...">
+        <Link to="/" onClick={() => setMenuToggle(false)}>
+          <img
+            src={logo}
+            alt="logo"
+            width="100%"
+            heigth="auto"
+            className="sm:pl-24"
+          />
         </Link>
       </div>
-      <div className=" mx-2 h-0.5 bg-madart-orange w-1/2 navbar-line... "></div>
-      <div className="flex  items-center font-bold navbar-links...">
+
+      <button>
+        <img
+          src={searchButton}
+          alt="search"
+          className="block sm:hidden bg-madart-orange p-2 rounded-md"
+        />
+      </button>
+
+      <div className=" hidden sm:block mx-2 h-0.5 bg-madart-orange w-1/2 navbar-line... " />
+      <div className=" hidden sm:flex  items-center font-bold navbar-links...">
         <div
           className="flex relative justify-between items-center pr-8 shrink-0  "
           style={{ width: '400px' }}
         >
           <Link to="/">მთავარი</Link>
           <Link to="/aboutus">ჩვენ შესახებ</Link>
-          <Link
-            to={!user ? '/login' : '#'}
-            className=" navbar-login"
-          >
+          <Link to={!user ? '/login' : '#'}>
             <img src={loginIcon} alt="login icon" className={`inline mr-2 `} />
             {!user ? (
               <span>შესვლა</span>
@@ -50,7 +78,12 @@ const Navbar = () => {
                   </Link>
                 </li>
                 <li>
-                  <button onClick={()=>{authStrategy('logOut')}} className="m-1">
+                  <button
+                    onClick={() => {
+                      authStrategy('logOut');
+                    }}
+                    className="m-1"
+                  >
                     Log out
                   </button>
                 </li>

@@ -2,12 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
-a:hover {
-  color: #ffbb00;
-}
+
 
 *:root {
   font-family: 'Josefin Sans', sans-serif;
+  background-color: #f3f7fd;
 }
 
 .registration-input:focus ~ .registration-label{

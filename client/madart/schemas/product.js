@@ -1,7 +1,7 @@
 export default {
   name: 'product',
   type: 'document',
-  title: 'Product',
+  title: 'სერიული ტორტები',
   fields: [
     {
       name: 'image',
@@ -33,6 +33,13 @@ export default {
       name: 'price',
       type: 'number',
       title: 'Price',
+    },
+    {
+      title: 'Category',
+      name: 'category',
+      type: 'reference',
+      to: [{ type: 'category' }],
+      options: { filter: 'defined(parent)' },
     },
   ],
 };

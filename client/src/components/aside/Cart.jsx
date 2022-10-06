@@ -1,12 +1,7 @@
 import React from 'react';
 import { cartBg, checkoutIcon } from '../../assets';
 import { Link } from 'react-router-dom';
-import {
-  AiOutlineMinus,
-  AiOutlinePlus,
-  AiOutlineLeft,
-  AiOutlineShopping,
-} from 'react-icons/ai';
+import { AiOutlineMinus, AiOutlinePlus } from 'react-icons/ai';
 
 import { urlFor } from '../../lib/client';
 import { TiDeleteOutline } from 'react-icons/ti';
@@ -75,7 +70,7 @@ const Cart = () => {
         <span className="bg-[url(../../src/assets/seperator.png)]  rounded-l-md bg-right bg-no-repeat w-[63%] p-2 overflow-hidden bg-[#ffefc2] float-left">
           ჯამი: {totalPrice}ლ
         </span>
-        <span  className='p-2'> შეუკვეთე</span >
+        <span className="p-2"> შეუკვეთე</span>
       </div>
     </div>
   );

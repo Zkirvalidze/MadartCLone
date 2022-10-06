@@ -8,6 +8,7 @@ import Product from './productList/product/Product';
 import FormControl from './shareable/FormControl';
 import TextError from './shareable/TextError';
 import QuantityIndicator from './shareable/QuantityIndicator';
+import MenuModal from './MenuModal';
 
 import Cart from './aside/Cart';
 import Filter from './aside/Filter';
@@ -23,5 +24,6 @@ export {
   TextError,
   Cart,
   QuantityIndicator,
-  Filter
+  Filter,
+  MenuModal,
 };
