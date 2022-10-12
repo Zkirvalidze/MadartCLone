@@ -10,8 +10,8 @@ import TextError from './shareable/TextError';
 import QuantityIndicator from './shareable/QuantityIndicator';
 import MenuModal from './MenuModal';
 
-import Cart from './aside/Cart';
-import Filter from './aside/Filter';
+import Cart from '../features/cart/Cart';
+import Filter from '../features/aside/Filter';
 export {
   Navbar,
   Footer,

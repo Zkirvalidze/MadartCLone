@@ -1,19 +1,22 @@
 import React from 'react';
 import { useEffect } from 'react';
 import { useParams ,useNavigate} from 'react-router-dom';
-
+import {useSelector,useDispatch} from 'react-redux';
+import { incQty,decQty,onAdd, resetQty } from '../../../../features/cart/cartSlice';
 import { useStateContext } from '../../../../context/StateContext';
 import { urlFor, client } from '../../../../lib/client';
 import {
   AiOutlineMinus,
   AiOutlinePlus,
-  AiFillStar,
-  AiOutlineStar,
 } from 'react-icons/ai';
 
 const ProductDetails = () => {
+
+  const qty = useSelector((state)=>state.cart.qty);
+ 
+  const dispatch =useDispatch()
   const navigate = useNavigate()
-  const { data, setData, incQty, decQty, qty, onAdd,setQty } = useStateContext();
+  const { data, setData,} = useStateContext();
   const { slug } = useParams();
   let result = data?.filter((product) => product.slug.current === slug)[0];
 
@@ -46,14 +49,14 @@ const ProductDetails = () => {
             <p className=" flex border-2 border-gray-300 justify-center items-center  quantity-desc">
               <span
                 className="text-red-400 p-2 border-r-gray-300  border-r-2 outline-none  minus"
-                onClick={decQty}
+                onClick={()=>dispatch(decQty())}
               >
                 <AiOutlineMinus />
               </span>
               <span className="num px-4 ">{qty}</span>
               <span
                 className=" text-green-400 p-2 border-gray-300 border-l-2  plus"
-                onClick={incQty}
+                onClick={()=>dispatch(incQty())}
               >
                 <AiOutlinePlus />
               </span>
@@ -61,8 +64,10 @@ const ProductDetails = () => {
           </div>
           <button
             onClick={() => {
-              onAdd(result, qty);
-                setQty(1)
+              
+             dispatch( onAdd(result));
+             dispatch(resetQty());
+                
               navigate('/');
             }}
             className="  border-solid rounded-lg border-2 cursor-pointer p-2 mt-4 bg-madart-orange border-gray-400 "

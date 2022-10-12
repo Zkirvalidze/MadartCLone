@@ -20,7 +20,7 @@ const Home = () => {
   return (
     <div>
       {/* <Filter/> */}
-      {/* {<Cart />} */}
+      {<Cart />}
       <ProductList />
     </div>
   );

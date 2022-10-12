@@ -2,7 +2,9 @@ import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { urlFor } from '../../../lib/client';
 import { AiOutlineShoppingCart } from 'react-icons/ai';
+import {useStateContext} from '../../../context/StateContext';
 const Product = ({ product: { name, image, price, description, slug } }) => {
+  const {onAdd}=useStateContext()
   const navigate = useNavigate();
   return (
     <div
@@ -20,12 +22,12 @@ const Product = ({ product: { name, image, price, description, slug } }) => {
         <br />
         <span>{price} ლ</span>
         <br />
-        <span className="sm:hidden inline-block  h-14 w-[60%] overflow-hidden text-clip ">
+        <span className="sm:hidden inline-block  h-10 w-[70%] overflow-hidden text-clip mt-2 ">
           {description}
         </span>
       </div>
 
-      <AiOutlineShoppingCart className=" sm:hidden p-2 w-10 h-10 bg-madart-orange rounded-md absolute top-[50px] right-[15px]" />
+      <AiOutlineShoppingCart className=" sm:hidden p-2 w-10 h-10 bg-madart-orange rounded-md absolute top-[50px] right-[15px]" onClick={(e)=>{onAdd,console.log('clicked'),e.stopPropagation()}}/>
 
       <button className="hidden sm:block border-2 border-black border-solid bg-madart-orange rounded-md p-2">
         იყიდე

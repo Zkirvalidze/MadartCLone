@@ -22,7 +22,7 @@ const Navbar = () => {
           onClick={() => setMenuToggle((prev) => !prev)}
         />
       </button>
-      {console.log(menuToggle)}
+      {console.log(user)}
 
       <div className="shrink-0 navbar-logo...">
         <Link to="/" onClick={() => setMenuToggle(false)}>
@@ -52,7 +52,7 @@ const Navbar = () => {
         >
           <Link to="/">მთავარი</Link>
           <Link to="/aboutus">ჩვენ შესახებ</Link>
-          <Link to={!user ? '/login' : '#'}>
+          <Link to={!user ? '/login' : '#'} className='navbar-login'>
             <img src={loginIcon} alt="login icon" className={`inline mr-2 `} />
             {!user ? (
               <span>შესვლა</span>
@@ -60,7 +60,7 @@ const Navbar = () => {
               <span>
                 გამარჯობა,
                 <br />{' '}
-                <span className="pl-6 pb-10">
+                <span className="pl-6 pb-10 ">
                   {user.username.split(' ')[0]}
                 </span>
               </span>
@@ -69,7 +69,7 @@ const Navbar = () => {
 
           {user && (
             <div
-              className={`  hidden hover:block p-6  absolute  top-[14px] right-[-16px] mx-4 my-2 min-w-[140px] rounded-md  bg-yellow-50 navbar-sidebar`}
+              className={`   hidden hover:block  p-6  absolute  top-[14px] right-[-16px] mx-4 my-2 min-w-[140px] rounded-md  bg-yellow-50 navbar-sidebar`}
             >
               <ul className="list-none flex  flex-col  justify-end items-center flex-1 ">
                 <li className="inline-block">
