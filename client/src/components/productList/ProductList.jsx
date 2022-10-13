@@ -1,25 +1,22 @@
 import React, { useEffect } from 'react';
-import { client } from '../../lib/client';
+
 import { Product } from '../index';
 import { useStateContext } from '../../context/StateContext';
+import { fetchProducts } from './productSlice';
+import { useDispatch, useSelector } from 'react-redux';
 const ProductList = () => {
+  const dispatch = useDispatch();
   const { data, setData } = useStateContext();
+  const products = useSelector((state) => state.products.products);
 
   useEffect(() => {
-    client
-      .fetch(
-        `*[_type=="product"]{
-          name, image[]{asset->{url}},slug,description,price,_id
-        }`
-      )
-      .then((data) => setData(data))
-      .catch((err) => console.log(err));
-  }, []);
+    dispatch(fetchProducts());
+  }, [dispatch]);
 
   return (
     <>
       <div className="  grid sm:grid-cols-2 md:grid-cols-3   mt-14 ">
-        {data?.map((product, index) => (
+        {products?.map((product, index) => (
           <Product key={index} product={product} />
         ))}
       </div>

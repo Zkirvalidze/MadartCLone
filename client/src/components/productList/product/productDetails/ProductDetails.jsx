@@ -2,6 +2,7 @@ import React from 'react';
 import { useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
+
 import {
   incQty,
   decQty,
@@ -11,6 +12,7 @@ import {
 import { useStateContext } from '../../../../context/StateContext';
 import { urlFor, client } from '../../../../lib/client';
 import { AiOutlineMinus, AiOutlinePlus } from 'react-icons/ai';
+import { fetchCurrentProducts } from '../../productSlice';
 
 const ProductDetails = () => {
   const qty = useSelector((state) => state.cart.qty);
@@ -19,25 +21,15 @@ const ProductDetails = () => {
   const navigate = useNavigate();
   const { data, setData } = useStateContext();
   const { slug } = useParams();
-  let result = data?.filter((product) => product.slug.current === slug)[0];
+  const products = useSelector((state) => state.products.products);
+  let result = products?.filter((product) => product.slug.current === slug)[0];
 
   useEffect(() => {
-    !data &&
-      client
-        .fetch(
-          ` *[_type=="product"&&slug.current=='${slug}']{
-            image[]{asset->{url}},name,slug,description,price,_id
-          }`
-        )
-        .then((resp) => {
-          setData(resp);
-          result = data;
-        })
-        .catch((err) => console.log(err));
-  }, []);
-
+    products.length === 0 && dispatch(fetchCurrentProducts(slug));
+  }, [dispatch]);
+  
   return (
-    data && (
+    products.length > 0 && (
       <div className=" flex  flex-col   sm:flex-row justify-center items-start sm:m-20 sm:mx-4   bg-[#fef4eb]">
         <div className="sm:w-1/2   sm:h-1/4  details-image">
           <img
