@@ -1,18 +1,14 @@
 import React from 'react';
 import { useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
-
-import {
-  incQty,
-  decQty,
-  onAdd,
-  resetQty,
-} from '../../../../features/cart/cartSlice';
+import { useParams ,useNavigate} from 'react-router-dom';
+import {useSelector,useDispatch} from 'react-redux';
+import { incQty,decQty,onAdd, resetQty } from '../../../../features/cart/cartSlice';
 import { useStateContext } from '../../../../context/StateContext';
 import { urlFor, client } from '../../../../lib/client';
-import { AiOutlineMinus, AiOutlinePlus } from 'react-icons/ai';
-import { fetchCurrentProducts } from '../../productSlice';
+import {
+  AiOutlineMinus,
+  AiOutlinePlus,
+} from 'react-icons/ai';
 
 const ProductDetails = () => {
   const qty = useSelector((state) => state.cart.qty);
@@ -25,22 +21,32 @@ const ProductDetails = () => {
   let result = products?.filter((product) => product.slug.current === slug)[0];
 
   useEffect(() => {
-    products.length === 0 && dispatch(fetchCurrentProducts(slug));
-  }, [dispatch]);
-  
+    !data &&
+      client
+        .fetch(
+          ` *[_type=="product"&&slug.current=='${slug}']{
+          image[]{asset->{url}},name,slug,description,price,_id
+        }`
+        )
+        .then((resp) => {
+          setData(resp);
+          result = data;
+        })
+        .catch((err) => console.log(err));
+  }, []);
+
   return (
-    products.length > 0 && (
-      <div className=" flex  flex-col   sm:flex-row justify-center items-start sm:m-20 sm:mx-4   bg-[#fef4eb]">
-        <div className="sm:w-1/2   sm:h-1/4  details-image">
-          <img
-            src={urlFor(result?.image && result.image[0])}
-            className="w-screen h-full   "
-            alt="product-image"
-          />
-        </div>
-        <div className=" sm:flex sm:flex-col-reverse     p-4  sm:w-1/2  md:h-1/4   ">
-          <div className=" flex justify-between   mt-2   quantity">
-            <p className=" flex border-2 border-gray-300  rounded-md  items-center  quantity-desc">
+    data && (
+      <div className=" flex justify-center m-44 gap-12  px-12 w-3/4">
+        <div className=" justify-start items-start  ">
+          <p className="text-4xl text-red-400 pt-16 maxw-">{result?.name}</p>
+          <p className="tetx-lg mt-5">{result?.description}</p>
+          <div className="flex justify-start items-center gap-5 mt-10">
+            <p className="text-2xl text-black   ">{result?.price}ლ</p>
+          </div>
+          <div className=" flex gap-5 mt-3 items-center quantity">
+            <h3>Quantity:</h3>
+            <p className=" flex border-2 border-gray-300 justify-center items-center  quantity-desc">
               <span
                 className="text-red-400 p-2 border-r-gray-300  border-r-2 outline-none  minus"
                 onClick={() => dispatch(decQty())}
