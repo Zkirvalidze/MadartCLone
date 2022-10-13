@@ -28,6 +28,7 @@ export const cartSlice = createSlice({
     },
     onAdd: (state, result) => {
       const product = result.payload;
+      console.log(product)
       const checkProductInCart = state.cartItems.find(
         (item) => item['_id'] === product._id
       );

@@ -2,9 +2,12 @@ import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { urlFor } from '../../../lib/client';
 import { AiOutlineShoppingCart } from 'react-icons/ai';
-import {useStateContext} from '../../../context/StateContext';
-const Product = ({ product: { name, image, price, description, slug } }) => {
-  const {onAdd}=useStateContext()
+import { onAdd } from '../../../features/cart/cartSlice';
+import { useDispatch } from 'react-redux';
+const Product = ({
+  product: { name, image, price, description, slug, _id },
+}) => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   return (
     <div
@@ -27,7 +30,13 @@ const Product = ({ product: { name, image, price, description, slug } }) => {
         </span>
       </div>
 
-      <AiOutlineShoppingCart className=" sm:hidden p-2 w-10 h-10 bg-madart-orange rounded-md absolute top-[50px] right-[15px]" onClick={(e)=>{onAdd,console.log('clicked'),e.stopPropagation()}}/>
+      <AiOutlineShoppingCart
+        className=" sm:hidden p-2 w-10 h-10 bg-madart-orange rounded-md absolute top-[50px] right-[15px]"
+        onClick={(e) => {
+          e.stopPropagation();
+          dispatch(onAdd({ name, image, price, description, slug, _id }));
+        }}
+      />
 
       <button className="hidden sm:block border-2 border-black border-solid bg-madart-orange rounded-md p-2">
         იყიდე
