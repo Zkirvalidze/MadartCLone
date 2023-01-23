@@ -4,6 +4,7 @@ import { facebookIcon, googleIcon, registrationIcon } from '../assets';
 import { postUser, authStrategy } from '../lib/client';
 import { Formik, Form } from 'formik';
 import { FormControl } from '../components';
+import { useMutation } from '@tanstack/react-query';
 import {
   LocalAuthButton,
   SocMediaAuthButton,
@@ -12,13 +13,13 @@ import { useStateContext } from '../context/StateContext';
 import * as Yup from 'yup';
 
 const Login = () => {
+  const { user, setUser } = useStateContext();
   const INPUTLABEL1 = ' ტელეფონის ნომერი';
   const INPUTLABEL2 = 'პაროლი ';
   const LOGIN_BTN_VALUE = 'ავტორიზაცია';
   const REGISTER_BTN_VALUE = 'რეგისტრაცია';
   const { authType } = useStateContext();
   let navigate = useNavigate();
-
   const phoneOrMailRegex = /^(\+?995)?(79\d{7}|5\d{8})|\S+@\S+\.\S+$/;
 
   const validationSchema = Yup.object({
@@ -30,23 +31,17 @@ const Login = () => {
       .min(8, 'Password is too short - should be 8 chars minimum.'),
   });
 
-  const initialValues = { phone: '', password: '' };
+  const addUserMutation = useMutation(postUser, {
+    onSuccess: (res) => {
+      if (res.message === 'Successfully Authenticated' && res.success === true)
+        navigate('/');
+    },
+  });
 
   const onSubmit = ({ phone, password }) => {
-    postAuthAction(phone, password, authType);
+    addUserMutation.mutate({ phone, password, authType });
   };
-
-  const postAuthAction = (user, psw, authAction) => {
-    postUser(user, psw, authAction).then((res) => {
-      if (
-        res.data.message === 'Successfully Authenticated' &&
-        res.status === 200
-      ) {
-        navigate('/');
-      }
-      console.log(res);
-    });
-  };
+  const initialValues = { phone: '', password: '' };
 
   return (
     <div className="flex justify-center items-start bg-gray-100 h-screen">
@@ -79,10 +74,10 @@ const Login = () => {
                   value={props.values.password}
                 />
 
-                {/* <LocalAuthButton
-                authAction={'register'}
-                buttonName={REGISTER_BTN_VALUE}
-              /> */}
+                <LocalAuthButton
+                  authAction={'register'}
+                  buttonName={REGISTER_BTN_VALUE}
+                />
 
                 <LocalAuthButton
                   authAction={'login'}

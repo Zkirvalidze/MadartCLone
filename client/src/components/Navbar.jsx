@@ -1,6 +1,9 @@
-import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useStateContext } from '../context/StateContext';
+import { getUser } from '../lib/client';
+
+{
+}
 import {
   logo,
   loginIcon,
@@ -8,9 +11,17 @@ import {
   menuIcon,
   searchButton,
 } from '../assets';
+import { useQuery } from '@tanstack/react-query';
 import { authStrategy } from '../lib/client';
+
 const Navbar = () => {
-  const { data, user, setMenuToggle, menuToggle } = useStateContext();
+  const { setMenuToggle } = useStateContext();
+
+  const { data: user } = useQuery({
+    queryKey: ['auth/login/success'],
+    queryFn: getUser,
+    refetchOnWindowFocus: false,
+  });
 
   return (
     <div className=" flex justify-between py-2 px-4 sm:p-0 items-center    sticky top-0  bg-white Navbar ">
@@ -22,7 +33,6 @@ const Navbar = () => {
           onClick={() => setMenuToggle((prev) => !prev)}
         />
       </button>
-      {console.log(user)}
 
       <div className="shrink-0 navbar-logo...">
         <Link to="/" onClick={() => setMenuToggle(false)}>
@@ -52,7 +62,7 @@ const Navbar = () => {
         >
           <Link to="/">მთავარი</Link>
           <Link to="/aboutus">ჩვენ შესახებ</Link>
-          <Link to={!user ? '/login' : '#'} className='navbar-login'>
+          <Link to={!user ? '/login' : '#'} className="navbar-login">
             <img src={loginIcon} alt="login icon" className={`inline mr-2 `} />
             {!user ? (
               <span>შესვლა</span>

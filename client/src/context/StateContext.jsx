@@ -3,10 +3,8 @@ import React, { useContext, createContext, useState } from 'react';
 const Context = createContext();
 
 export const StateContext = ({ children }) => {
-  const [data, setData] = useState(null);
   const [user, setUser] = useState(null);
   const [authType, setAuthType] = useState('');
-
   const [cartItems, setCartItems] = useState([]);
   const [totalPrice, setTotalPrice] = useState(0);
   const [totalQuantities, setTotalQuantities] = useState(0);
@@ -15,7 +13,6 @@ export const StateContext = ({ children }) => {
   const [qty, setQty] = useState(1);
 
   let foundProduct;
-  let index;
 
   const onAdd = (product, quantity) => {
     const checkProductInCart = cartItems.find(
@@ -90,6 +87,7 @@ export const StateContext = ({ children }) => {
 
   const incQty = () => {
     setQty((prevQty) => prevQty + 1);
+    console.log('doing psuhup');
   };
 
   const decQty = () => {
@@ -99,11 +97,10 @@ export const StateContext = ({ children }) => {
       return prevQty - 1;
     });
   };
+
   return (
     <Context.Provider
       value={{
-        data,
-        setData,
         user,
         setUser,
         authType,

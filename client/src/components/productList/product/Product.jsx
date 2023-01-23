@@ -2,12 +2,12 @@ import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { urlFor } from '../../../lib/client';
 import { AiOutlineShoppingCart } from 'react-icons/ai';
-import { onAdd } from '../../../features/cart/cartSlice';
-import { useDispatch } from 'react-redux';
+import { useStateContext } from '../../../context/StateContext';
+
 const Product = ({
   product: { name, image, price, description, slug, _id },
 }) => {
-  const dispatch = useDispatch();
+  const { onAdd } = useStateContext();
   const navigate = useNavigate();
   return (
     <div
@@ -30,15 +30,15 @@ const Product = ({
         </span>
       </div>
 
-      <AiOutlineShoppingCart
-        className=" sm:hidden p-2 w-10 h-10 bg-madart-orange rounded-md absolute top-[50px] right-[15px]"
+      <AiOutlineShoppingCart className=" sm:hidden p-2 w-10 h-10 bg-madart-orange rounded-md absolute top-[50px] right-[15px]" />
+
+      <button
+        className="hidden sm:block border-2 border-black border-solid bg-madart-orange rounded-md p-2"
         onClick={(e) => {
           e.stopPropagation();
-          dispatch(onAdd({ name, image, price, description, slug, _id }));
+          onAdd({ price, name, image, slug, _id, description }, 1);
         }}
-      />
-
-      <button className="hidden sm:block border-2 border-black border-solid bg-madart-orange rounded-md p-2">
+      >
         იყიდე
       </button>
     </div>

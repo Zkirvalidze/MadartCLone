@@ -1,97 +1,70 @@
-import React from 'react';
-import { useEffect } from 'react';
-import { useParams ,useNavigate} from 'react-router-dom';
-import {useSelector,useDispatch} from 'react-redux';
-import { incQty,decQty,onAdd, resetQty } from '../../../../features/cart/cartSlice';
+import { useParams, useNavigate } from 'react-router-dom';
 import { useStateContext } from '../../../../context/StateContext';
-import { urlFor, client } from '../../../../lib/client';
-import {
-  AiOutlineMinus,
-  AiOutlinePlus,
-} from 'react-icons/ai';
 
+import { AiOutlineMinus, AiOutlinePlus } from 'react-icons/ai';
+import { useQuery } from '@tanstack/react-query';
+import { fetchCurrentProducts, urlFor } from '../../../../lib/client';
 const ProductDetails = () => {
-  const qty = useSelector((state) => state.cart.qty);
-
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const { data, setData } = useStateContext();
+  const { incQty, decQty, onAdd, qty, setQty } = useStateContext();
   const { slug } = useParams();
-  const products = useSelector((state) => state.products.products);
-  let result = products?.filter((product) => product.slug.current === slug)[0];
+  const navigate = useNavigate();
 
-  useEffect(() => {
-    !data &&
-      client
-        .fetch(
-          ` *[_type=="product"&&slug.current=='${slug}']{
-          image[]{asset->{url}},name,slug,description,price,_id
-        }`
-        )
-        .then((resp) => {
-          setData(resp);
-          result = data;
-        })
-        .catch((err) => console.log(err));
-  }, []);
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ['product', slug],
+    queryFn: fetchCurrentProducts,
+  });
+  if (isLoading) return <h1>Loading</h1>;
+  if (isError) console.log(console.error);
+  const product = data[0];
 
   return (
-    data && (
-      <div className=" flex justify-center m-44 gap-12  px-12 w-3/4">
-        <div className=" justify-start items-start  ">
-          <p className="text-4xl text-red-400 pt-16 maxw-">{result?.name}</p>
-          <p className="tetx-lg mt-5">{result?.description}</p>
-          <div className="flex justify-start items-center gap-5 mt-10">
-            <p className="text-2xl text-black   ">{result?.price}ლ</p>
-          </div>
-          <div className=" flex gap-5 mt-3 items-center quantity">
-            <h3>Quantity:</h3>
-            <p className=" flex border-2 border-gray-300 justify-center items-center  quantity-desc">
-              <span
-                className="text-red-400 p-2 border-r-gray-300  border-r-2 outline-none  minus"
-                onClick={() => dispatch(decQty())}
-              >
-                <AiOutlineMinus />
-              </span>
-              <span className="num px-4 ">{qty}</span>
-              <span
-                className=" text-green-400 p-2 border-gray-300 border-l-2  plus"
-                onClick={() => dispatch(incQty())}
-              >
-                <AiOutlinePlus />
-              </span>
-            </p>
-            <button
-              onClick={() => {
-                dispatch(onAdd(result));
-                dispatch(resetQty());
-
-                navigate('/');
-              }}
-              className="border-solid rounded-md border-2 cursor-pointer p-1 text-sm bg-madart-orange border-gray-400 "
+    <div className=" flex justify-center items-center    m-4  xl:m-24 gap-12  px-12 ">
+      <div className=" justify-start items-start  ">
+        <img src={urlFor(product.image && product.image[0])} className="w-20%"/>
+        <div className=" flex gap-5 mt-3 items-center quantity">
+          <h3>Quantity:</h3>
+          <p className=" flex border-2 border-gray-300 justify-center items-center  quantity-desc">
+            <span
+              className="text-red-400 p-2 border-r-gray-300  border-r-2 outline-none  minus"
+              onClick={decQty}
             >
-              დაამატე კალათაში
-            </button>
+              <AiOutlineMinus />
+            </span>
+            <span className="num px-4 ">{qty}</span>
+            <span
+              className=" text-green-400 p-2 border-gray-300 border-l-2  plus"
+              onClick={incQty}
+            >
+              <AiOutlinePlus />
+            </span>
+          </p>
+          <button
+            onClick={() => {
+              onAdd(product, qty), setQty(1), navigate('/');
+            }}
+            className="border-solid rounded-md border-2 cursor-pointer p-1 text-sm bg-madart-orange border-gray-400 "
+          >
+            დაამატე კალათაში
+          </button>
+        </div>
+        <div>
+          <div className="flex justify-between items-center font-semibold pt-8">
+            <p className="sm:text-lg lg:text-4xl sm:text-red-400  border-l-2  border-l-madart-orange p-1">
+              {product.name}
+            </p>
+            <p className="sm:text-2xl  text-black   ">{product.price}ლ</p>
           </div>
-          <div>
-            <div className="flex justify-between items-center font-semibold pt-8">
-              <p className="sm:text-lg lg:text-4xl sm:text-red-400  border-l-2  border-l-madart-orange p-1">
-                {result?.name}
-              </p>
-              <p className="sm:text-2xl  text-black   ">{result?.price}ლ</p>
-            </div>
-            <div className=" mt-5">
-              <span className="inline-block font-semibold mb-2  border-b-2  border-b-madart-orange lg:mt-8 ">
-                შემადგენლობა :
-              </span>
-              <p className="text-sm sm:truncate md:whitespace-normal md:mb-6  xl:mb-14">
-                {result?.description}
-              </p>
-            </div>
+          <div className=" mt-5">
+            <span className="inline-block font-semibold mb-2  border-b-2  border-b-madart-orange lg:mt-8 ">
+              შემადგენლობა :
+            </span>
+            <p className="text-sm sm:truncate md:whitespace-normal md:mb-6  xl:mb-14">
+              {product.description}
+            </p>
           </div>
         </div>
       </div>
-    )
+    </div>
   );
 };
 

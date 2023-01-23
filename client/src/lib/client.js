@@ -1,6 +1,6 @@
 import sanityClient from '@sanity/client';
 import imageUrlBuilder from '@sanity/image-url';
-import Axios from 'axios';
+import axios from 'axios';
 
 export const client = sanityClient({
   projectId: 'x5kltkvv',
@@ -8,28 +8,48 @@ export const client = sanityClient({
   useCdn: true,
 });
 
-
-export const getUser = () => {
-  return Axios.get(`${import.meta.env.VITE_API_URL + `auth/login/success`}`, {
-    withCredentials: true,
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-      'Access-Control-Allow-Credentials': true,
-    },
-  });
+const ApiClient = axios.create({
+  baseURL: import.meta.env.VITE_API_URL,
+  headers: {
+    Accept: 'application/json',
+    'Content-Type': 'application/json',
+    'Access-Control-Allow-Credentials': true,
+  },
+});
+export const fetchProducts = async ({ queryKey }) => {
+  if (queryKey === null) return;
+  const response = await client.fetch(
+    `*[_type=="product"]{
+          name, image[]{asset->{url}},slug,description,price,_id
+        }`
+  );
+  return response;
 };
 
-export const postUser = (user, password, authAction) => {
-  return Axios({
-    method: 'POST',
-    data: {
-      username: user,
-      password: password,
-    },
+export const fetchCurrentProducts = async ({ queryKey }) => {
+  const [_, slug] = queryKey;
+  const response = await client.fetch(
+    ` *[_type=="product"&&slug.current=='${slug}']{
+            image[]{asset->{url}},name,slug,description,price,_id
+          }`
+  );
+  return response;
+};
+
+export const getUser = async () => {
+  const { data } = await ApiClient.get(`auth/login/success`, {
     withCredentials: true,
-    url: `${import.meta.env.VITE_API_URL + `auth/${authAction}`}`,
   });
+  return data;
+};
+
+export const postUser = async ({ phone, password, authType }) => {
+  const { data } = await ApiClient.post(`auth/${authType}`, {
+    username: phone,
+    password: password,
+  });
+
+  return data;
 };
 
 export const authStrategy = (action) => {
@@ -37,5 +57,4 @@ export const authStrategy = (action) => {
 };
 
 const builder = imageUrlBuilder(client);
-
 export const urlFor = (source) => builder.image(source);

@@ -1,17 +1,14 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 
 import { Product } from '../index';
-import { useStateContext } from '../../context/StateContext';
-import { fetchProducts } from './productSlice';
-import { useDispatch, useSelector } from 'react-redux';
-const ProductList = () => {
-  const dispatch = useDispatch();
-  const { data, setData } = useStateContext();
-  const products = useSelector((state) => state.products.products);
+import { fetchProducts } from '../../lib/client';
+import { useQuery } from '@tanstack/react-query';
 
-  useEffect(() => {
-    dispatch(fetchProducts());
-  }, [dispatch]);
+const ProductList = () => {
+  const { data: products } = useQuery({
+    queryKey: ['products'],
+    queryFn: fetchProducts,
+  });
 
   return (
     <>

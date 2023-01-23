@@ -21,24 +21,27 @@ router.post('/login', (req, res, next) => {
             success: true,
             message: 'Successfully Authenticated',
             user,
-            //   cookies: req.cookies
+
+            // cookies: req.cookies
           });
-        };
+        }
       });
     }
   })(req, res, next);
 });
 
 function isLoggedIn(req, res, next) {
+  console.log(req.user);
   req.user ? next() : res.sendStatus(401);
 }
 
 router.post('/register', (req, res) => {
   User.findOne({ username: req.body.username }, async (err, doc) => {
-    console.log(doc)
+    console.log(doc);
     if (err) throw err;
     if (doc) {
-    res.send('User Already Exists')}
+      res.send('User Already Exists');
+    }
     if (!doc) {
       const hashedPassword = await bcrypt.hash(req.body.password, 10);
 
@@ -52,7 +55,7 @@ router.post('/register', (req, res) => {
   });
 });
 
-router.get('/login/success', isLoggedIn,(req, res) => {
+router.get('/login/success', isLoggedIn, (req, res) => {
   if (req.user) {
     res.send(req.user);
     // res.status(200).json({
@@ -74,7 +77,6 @@ router.get('/login/failed', (req, res) => {
 router.get('/logout', (req, res) => {
   req.logout();
   res.redirect(CLIENT_URL);
-
 });
 
 router.get('/google', passport.authenticate('google', { scope: ['profile'] }));

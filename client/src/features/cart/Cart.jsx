@@ -1,21 +1,12 @@
-import React from 'react';
 import { cartBg, checkoutIcon } from '../../assets';
-import { Link } from 'react-router-dom';
 import { AiOutlineMinus, AiOutlinePlus } from 'react-icons/ai';
-import { useSelector, useDispatch } from 'react-redux';
-import {
-  onRemove,
-  toggleCartItemQuanitity,
-} from './cartSlice';
-import { urlFor } from '../../lib/client';
 import { TiDeleteOutline } from 'react-icons/ti';
+
+import { urlFor } from '../../lib/client';
 import { useStateContext } from '../../context/StateContext';
 const Cart = () => {
-  const dispatch = useDispatch();
-  
-  const totalPrice = useSelector((state) => state.cart.totalPrice);
-  const cartItems = useSelector((state) => state.cart.cartItems);
-  const { setShowCart } = useStateContext();
+  const { totalPrice, cartItems, toggleCartItemQuanitity, onRemove } =
+    useStateContext();
   const DEC = 'dec';
   const INC = 'inc';
   return (
@@ -47,25 +38,21 @@ const Cart = () => {
                 <p className=" flex  quantity-desc pl-3   ">
                   <span
                     className="text-red-400 p-1 minus"
-                    onClick={() =>
-                      dispatch(toggleCartItemQuanitity([item?._id, DEC]))
-                    }
+                    onClick={() => toggleCartItemQuanitity(item?._id, DEC)}
                   >
                     <AiOutlineMinus />
                   </span>
                   <span className="num px-1 ">{item?.quantity}</span>
                   <span
                     className=" text-green-400 p-1 plus"
-                    onClick={() =>
-                      dispatch(toggleCartItemQuanitity([item?._id, INC]))
-                    }
+                    onClick={() => toggleCartItemQuanitity(item?._id, INC)}
                   >
                     <AiOutlinePlus />
                   </span>
                 </p>
                 <TiDeleteOutline
                   className="text-red-500 mr-2 w-5 h-5"
-                  onClick={() => dispatch(onRemove(item))}
+                  onClick={() => onRemove(item)}
                 />
               </div>
             </div>
