@@ -11,7 +11,7 @@ const Cart = () => {
   const INC = 'inc';
   return (
     <div
-      className={`w-full sm:max-w-md   bg-[url(../../src/assets/cart_bg.png)] bg-madart-orange bg-repeat-y   p-6 rounded-md w-full h-full `}
+      className={`w-full sm:max-w-md   bg-[url(../../src/assets/cart_bg.png)] bg-madart-orange bg-repeat-y   p-6 rounded-md  h-full `}
     >
       <div className=" flex my-6 items-center">
         <img src={checkoutIcon} alt="cart icon" />

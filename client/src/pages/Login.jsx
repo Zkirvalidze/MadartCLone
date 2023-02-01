@@ -1,27 +1,29 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { facebookIcon, googleIcon, registrationIcon } from '../assets';
-import { postUser, authStrategy } from '../lib/client';
 import { Formik, Form } from 'formik';
 import { FormControl } from '../components';
 import { useMutation } from '@tanstack/react-query';
+import { facebookIcon, googleIcon, registrationIcon } from '../assets';
+import { postUser } from '../lib/client';
 import {
   LocalAuthButton,
   SocMediaAuthButton,
 } from '../components/shareable/Buttons';
-import { useStateContext } from '../context/StateContext';
+
 import * as Yup from 'yup';
-
+import {
+  LOGIN_HEADER_TEXT,
+  INPUT_LABEL1,
+  INPUT_LABEL2,
+  IFNOT_REGISTERED_TEXT,
+  AUTH_TYPE1,
+  AUTH_TYPE2,
+} from '../data/constants';
+import { useStateContext } from '../context/StateContext';
 const Login = () => {
-  const { user, setUser } = useStateContext();
-  const INPUTLABEL1 = ' ტელეფონის ნომერი';
-  const INPUTLABEL2 = 'პაროლი ';
-  const LOGIN_BTN_VALUE = 'ავტორიზაცია';
-  const REGISTER_BTN_VALUE = 'რეგისტრაცია';
-  const { authType } = useStateContext();
   let navigate = useNavigate();
-  const phoneOrMailRegex = /^(\+?995)?(79\d{7}|5\d{8})|\S+@\S+\.\S+$/;
-
+  const {authType} = useStateContext()
+  const phoneOrMailRegex = /^(\+?995)?(79\d{7}|5\d{8}|\S+@\S+\.\S+)$/;
   const validationSchema = Yup.object({
     phone: Yup.string()
       .matches(phoneOrMailRegex, 'mail or phone incorrect')
@@ -38,9 +40,12 @@ const Login = () => {
     },
   });
 
+
   const onSubmit = ({ phone, password }) => {
+    
     addUserMutation.mutate({ phone, password, authType });
   };
+
   const initialValues = { phone: '', password: '' };
 
   return (
@@ -49,8 +54,8 @@ const Login = () => {
         <div className="flex justify-start items-center  registration-head ">
           <img src={registrationIcon} alt="reg_icon" className="m-5" />
           <div>
-            <p className="font-bold">ავტორიზაცია</p>
-            <p className="text-gray-500">სისტემაში შესვლა</p>
+            <p className="font-bold">{AUTH_TYPE1}</p>
+            <p className="text-gray-500">{LOGIN_HEADER_TEXT}</p>
           </div>
         </div>
         <div className="  px-8 registration-body ">
@@ -65,34 +70,29 @@ const Login = () => {
               <Form>
                 <FormControl
                   name={'phone'}
-                  label={INPUTLABEL1}
+                  label={INPUT_LABEL1}
                   value={props.values.phone}
                 />
                 <FormControl
                   name={'password'}
-                  label={INPUTLABEL2}
+                  label={INPUT_LABEL2}
                   value={props.values.password}
                 />
 
                 <LocalAuthButton
                   authAction={'register'}
-                  buttonName={REGISTER_BTN_VALUE}
+                  buttonName={AUTH_TYPE2}
                 />
 
-                <LocalAuthButton
-                  authAction={'login'}
-                  buttonName={LOGIN_BTN_VALUE}
-                />
+                <LocalAuthButton authAction={'login'} buttonName={AUTH_TYPE1} />
               </Form>
             )}
           </Formik>
 
           <div className="text-center">
-            <p className=" my-2 text-[#8b9aa7]">
-              თუ არ ხართ დარეგისტრირებული გაიარეთ
-            </p>
+            <p className=" my-2 text-[#8b9aa7]">{IFNOT_REGISTERED_TEXT}</p>
             <Link to="#" className="text-blue-500">
-              რეგისტრაცია
+              {AUTH_TYPE2}
             </Link>
             <br />
             <Link to="#" className="text-blue-500">
